@@ -1,0 +1,33 @@
+Imports MySql.Data.MySqlClient
+
+//Code for Public Class
+Public Class REGISTER_STUDENT
+    Dim CONNECT As MySqlConnection
+    Dim CONSTRING As String = "data source = localhost; user id = root; database = e-learning"
+    Dim CMD As MySqlCommand
+    Dim DA As MySqlDataAdapter
+    Dim DS As DataSet
+    Dim itemcoll(999) As String
+    
+    //code for SAVE Button
+    Private Sub SAVEBTN_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SAVEBTN.Click
+        Try
+            CONNECT = New MySqlConnection(CONSTRING)
+            CONNECT.Open()
+            Dim SQL As String = "Insert INTO registeracc (STUDENTID,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,USERNAME,PASSWORD) values ( '" & TextBox1.Text & "', '" & TextBox2.Text & "', '" & TextBox3.Text & "', '" & TextBox4.Text & "', '" & TextBox5.Text & "', '" & TextBox6.Text & "', '" & TextBox7.Text & "')"
+            CMD = New MySqlCommand(SQL, CONNECT)
+            Dim i As Integer = CMD.ExecuteNonQuery
+            If i <> 0 Then
+                MsgBox("Account Created", vbInformation, "Admin")
+                Login.Show()
+                Me.Hide()
+            Else
+                MsgBox("Account Not Created", vbInformation, "Admin")
+            End If
+            CONNECT.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+End Class
